@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BRo-JEPA | Learning Modular Transformations in Latent Space</title>
+    <meta
+      name="description"
+      content="BRo-JEPA is a JEPA-style world model with block-rotation latent dynamics for strict zero-shot modular transformation generalization."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#top">BRo-JEPA</a>
+        <div class="nav-links">
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#geometry">Geometry</a>
+          <a href="https://github.com/DL-World-Models/brojepa">Code</a>
+        </div>
+      </nav>
+
+      <section id="top" class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">World models / JEPA / modular arithmetic / zero-shot composition</p>
+          <h1>BRo-JEPA</h1>
+          <p class="subtitle">Learning modular transformations in latent space</p>
+          <p class="takeaway">
+            Build the rotation into the predictor, and a world model does arithmetic it was
+            never trained on.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/DL-World-Models/brojepa">View code</a>
+            <a class="button secondary" href="#results">See results</a>
+          </div>
+        </div>
+
+        <aside class="hero-results" aria-label="Headline results">
+          <div class="result-card green">
+            <span class="value">99.44%</span>
+            <span class="label">MNIST strict zero-shot</span>
+            <span class="detail">ResNet-18, MFR learnable</span>
+          </div>
+          <div class="result-card green">
+            <span class="value">94.38%</span>
+            <span class="label">EMNIST strict zero-shot</span>
+            <span class="detail">ResNet-18, MFR fixed</span>
+          </div>
+          <div class="result-card red">
+            <span class="value">54.54%</span>
+            <span class="label">Best supervised MNIST baseline</span>
+            <span class="detail">Block rotation alone is not enough</span>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <main>
+      <section class="section question">
+        <div class="section-title">
+          <span class="index">01</span>
+          <h2>The question</h2>
+        </div>
+        <div class="question-grid">
+          <p class="large">
+            Can neural networks learn algebraic rules from images, or only fit the operations
+            shown during training?
+          </p>
+          <figure class="image-card task-card">
+            <img src="assets/MNIST_arithmetic_examples.png" alt="MNIST modular arithmetic examples" />
+            <figcaption>
+              State = image, action = operation k, target label = context label + k mod N.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="method" class="section method">
+        <div class="section-title">
+          <span class="index">02</span>
+          <h2>The core idea</h2>
+        </div>
+        <div class="method-grid">
+          <div>
+            <p class="large">
+              Modular addition is a circle. BRo-JEPA makes the predictor move around that
+              circle in latent space.
+            </p>
+            <div class="mini-grid">
+              <div class="mini-card">
+                <h3>Train only primitives</h3>
+                <p>Training operations are {-1,+1}; unseen operations are tested directly.</p>
+              </div>
+              <div class="mini-card">
+                <h3>Rotate latent blocks</h3>
+                <p>The action applies a block rotation instead of a generic operation embedding.</p>
+              </div>
+              <div class="mini-card">
+                <h3>Use the JEPA objective</h3>
+                <p>The visual representation is shaped to be compatible with the structured dynamics.</p>
+              </div>
+            </div>
+          </div>
+          <figure class="image-card">
+            <img src="assets/brojepa_arch-final.png" alt="BRo-JEPA architecture diagram" />
+            <figcaption>Context latent + operation-conditioned block rotation predicts the target latent.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="results" class="section results">
+        <div class="section-title">
+          <span class="index">03</span>
+          <h2>Strict zero-shot results</h2>
+        </div>
+        <div class="results-grid">
+          <article class="chart-panel">
+            <div class="panel-head">
+              <h3>MNIST</h3>
+              <span>N = 10, zero-shot %</span>
+            </div>
+            <div class="bar-row">
+              <span>Supervised + additive</span>
+              <div class="track"><i style="--w:1.27%"></i></div>
+              <b>1.27</b>
+            </div>
+            <div class="bar-row">
+              <span>JEPA + additive</span>
+              <div class="track"><i style="--w:3.48%"></i></div>
+              <b>3.48</b>
+            </div>
+            <div class="bar-row">
+              <span>Supervised + MFR rotation</span>
+              <div class="track"><i class="orange" style="--w:53.62%"></i></div>
+              <b>53.62</b>
+            </div>
+            <div class="bar-row strong">
+              <span>BRo-JEPA + MFR fixed</span>
+              <div class="track"><i class="green" style="--w:99.42%"></i></div>
+              <b>99.42</b>
+            </div>
+            <div class="bar-row strong">
+              <span>BRo-JEPA + MFR learnable</span>
+              <div class="track"><i class="green" style="--w:99.44%"></i></div>
+              <b>99.44</b>
+            </div>
+          </article>
+
+          <article class="chart-panel">
+            <div class="panel-head">
+              <h3>EMNIST Letters</h3>
+              <span>N = 26, zero-shot %</span>
+            </div>
+            <div class="bar-row">
+              <span>Supervised + additive</span>
+              <div class="track"><i style="--w:1.33%"></i></div>
+              <b>1.33</b>
+            </div>
+            <div class="bar-row">
+              <span>JEPA + additive</span>
+              <div class="track"><i style="--w:2.96%"></i></div>
+              <b>2.96</b>
+            </div>
+            <div class="bar-row">
+              <span>Supervised + MFR rotation</span>
+              <div class="track"><i class="orange" style="--w:25.13%"></i></div>
+              <b>25.13</b>
+            </div>
+            <div class="bar-row">
+              <span>BRo-JEPA + SFR learnable</span>
+              <div class="track"><i class="orange" style="--w:51.27%"></i></div>
+              <b>51.27</b>
+            </div>
+            <div class="bar-row strong">
+              <span>BRo-JEPA + MFR fixed</span>
+              <div class="track"><i class="green" style="--w:94.38%"></i></div>
+              <b>94.38</b>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section diagnostics">
+        <div class="section-title">
+          <span class="index">04</span>
+          <h2>Where baselines break</h2>
+        </div>
+        <div class="diagnostic-grid">
+          <figure class="image-card">
+            <img src="assets/baseline_PCA_extrapolation.png" alt="Baseline PCA extrapolation failure" />
+            <figcaption>
+              Baselines separate the sign of the operation, but unseen magnitudes collapse into
+              trained tracks.
+            </figcaption>
+          </figure>
+          <div class="callout">
+            <h3>High seen-operation accuracy is not rule learning.</h3>
+            <ul>
+              <li>Supervised and additive baselines fit seen operations.</li>
+              <li>Strict zero-shot remains near chance for additive predictors.</li>
+              <li>Rollout can work while direct one-step composition still fails.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section angles">
+        <div class="section-title">
+          <span class="index">05</span>
+          <h2>Learned angles</h2>
+        </div>
+        <div class="angles-grid">
+          <div class="callout dark">
+            <h3>The period is recovered, not specified.</h3>
+            <ul>
+              <li>Angles start from random initialization.</li>
+              <li>The model is not given the exact modulo-10 rotation angle.</li>
+              <li>MFR learns multiple harmonic components of pi/5.</li>
+              <li>Independent 2D blocks make MFR more robust than a single shared angle.</li>
+            </ul>
+          </div>
+          <figure class="image-card">
+            <img src="assets/lc_br_accuracy_angles.png" alt="Learning curves and learned rotation angles" />
+            <figcaption>Accuracy and rotation-angle learning curves for SFR and MFR.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="geometry" class="section geometry">
+        <div class="section-title">
+          <span class="index">06</span>
+          <h2>The latent becomes a circle</h2>
+        </div>
+        <div class="geometry-grid">
+          <figure class="image-card">
+            <img src="assets/pca_sfr.png" alt="Circular SFR latent PCA" />
+            <figcaption>Class prototypes arrange in order on a closed manifold.</figcaption>
+          </figure>
+          <figure class="image-card">
+            <img src="assets/trajectory_pca_op_-3_sfr.png" alt="Zero-shot minus three rollout trajectory" />
+            <figcaption>Given -3, the model walks 0 to 7 to 4 with minimal drift.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section takeaways">
+        <div class="section-title">
+          <span class="index">07</span>
+          <h2>What BRo-JEPA shows</h2>
+        </div>
+        <div class="takeaway-grid">
+          <article>
+            <h3>Structured latent dynamics matter</h3>
+            <p>Operation embeddings alone do not guarantee strict zero-shot composition.</p>
+          </article>
+          <article>
+            <h3>The objective matters too</h3>
+            <p>Supervised models with the same rotation operator still trail BRo-JEPA.</p>
+          </article>
+          <article>
+            <h3>MFR scales better</h3>
+            <p>Multiple frequencies preserve strong generalization on MNIST and EMNIST Letters.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>BRo-JEPA: Learning Modular Transformations in Latent Space</strong>
+        <p>Divyansh Jha, Yuanfang Xie, Brennen Yu, Varan Mehra</p>
+      </div>
+      <a href="https://github.com/DL-World-Models/brojepa">github.com/DL-World-Models/brojepa</a>
+    </footer>
+  </body>
+</html>
