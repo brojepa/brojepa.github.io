@@ -205,6 +205,61 @@ h1 {
   margin-bottom: 28px;
 }
 
+.training-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.training-copy h2 {
+  max-width: 420px;
+  margin-bottom: 24px;
+  font-size: 36px;
+  line-height: 1.12;
+  text-transform: none;
+}
+
+.training-copy .eyebrow {
+  color: var(--green);
+  letter-spacing: 0;
+}
+
+.training-lead {
+  font-size: 23px;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.training-copy > p:not(.eyebrow):not(.training-lead) {
+  color: var(--muted);
+}
+
+.training-model {
+  margin: 28px 0 0;
+  padding-top: 16px;
+  border-top: 2px solid var(--green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.training-figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.training-figure img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 6 / 5;
+  background: #fff;
+}
+
+.training-figure figcaption {
+  max-width: 620px;
+  line-height: 1.5;
+}
+
 .index {
   display: inline-flex;
   align-items: center;
@@ -446,6 +501,7 @@ figcaption {
   }
 
   .hero-grid,
+  .training-grid,
   .question-grid,
   .method-grid,
   .diagnostic-grid,
@@ -466,6 +522,14 @@ figcaption {
 }
 
 @media (max-width: 560px) {
+  .training-grid {
+    gap: 24px;
+  }
+
+  .training-copy h2 {
+    font-size: 30px;
+  }
+
   .hero {
     padding-top: 20px;
   }

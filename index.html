@@ -15,6 +15,7 @@
       <nav class="nav" aria-label="Primary">
         <a class="brand" href="#top">BRo-JEPA</a>
         <div class="nav-links">
+          <a href="#training">Training</a>
           <a href="#method">Method</a>
           <a href="#results">Results</a>
           <a href="#geometry">Geometry</a>
@@ -58,6 +59,36 @@
     </header>
 
     <main>
+      <section id="training" class="section training" aria-labelledby="training-title">
+        <div class="training-grid">
+          <div class="training-copy">
+            <p class="eyebrow">Training highlight</p>
+            <h2 id="training-title">Watch the latent space take shape</h2>
+            <p class="training-lead">
+              From scattered representations to an ordered circle.
+            </p>
+            <p>
+              As BRo-JEPA trains, the digit class prototypes separate and arrange around a
+              cycle in the first two principal components.
+            </p>
+            <p class="training-model">MLP / single-frequency rotation (SFR)</p>
+          </div>
+          <figure class="training-figure">
+            <img
+              src="assets/mlp_sfr_prototypes_by_epoch.gif"
+              width="1200"
+              height="1000"
+              alt="Animation of MLP SFR training: initially clustered digit class prototypes spread into an ordered circle by epoch 25 in a PC1-PC2 projection."
+              decoding="async"
+            />
+            <figcaption>
+              Digit class prototypes (0-9) across training epochs. Large numbered markers
+              identify each class prototype.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
       <section class="section question">
         <div class="section-title">
           <span class="index">01</span>
